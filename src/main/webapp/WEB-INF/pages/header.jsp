@@ -21,9 +21,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/staff-dashboard">Staff Dashboard</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Customer-dashboard">Customer Dashboard</a>
-                    </li>
+                    
                 </c:if>
 
                 <!-- Staff Menu -->

@@ -92,7 +92,7 @@ public class CustomerController {
         userrepo.delete(id);  // cascade deletes tickets
         return "redirect:/admin-dashboard";
     }
-    
+//    --------------------------------------------------------------------------------
 //    Edit Customer (Admin)
     @GetMapping("/editCustomer/{id}")
     public String customerEdit(@PathVariable int id, Model model) {
@@ -112,6 +112,41 @@ public String updateCustomer(@ModelAttribute UserModel customer) {
     userrepo.update(customer);
     return "redirect:/admin-dashboard";
 }
+//---------------------------------------------------------------------------------
+// ================= EDIT TICKET =================
+@GetMapping("/editTicket/{id}")
+public String editTicket(@PathVariable int id, Model model) {
+    // Fetch ticket from DB
+    Ticket ticket = ticketService.getById(id);
+
+    if (ticket == null) {
+        // Optional: redirect if ticket not found
+        return "redirect:/admin-dashboard";
+    }
+
+    // Add ticket to model (includes customer for read-only display)
+    model.addAttribute("ticket", ticket);
+    return "editticket"; // JSP page
+}
+
+// ================= UPDATE TICKET =================
+@PostMapping("/update-ticket")
+public String updateTicket(@ModelAttribute Ticket ticket) {
+    // Fetch the existing ticket from DB
+    Ticket existingTicket = ticketService.getById(ticket.getId());
+
+    if (existingTicket == null) {
+        throw new IllegalArgumentException("Ticket not found");
+    }
+
+    // Update only the ticket fields
+    existingTicket.setTitle(ticket.getTitle());
+    existingTicket.setDescription(ticket.getDescription());
+
+    ticketService.update(existingTicket);
+
+    return "redirect:/admin-dashboard";
+}
 }
 
 
@@ -119,20 +154,8 @@ public String updateCustomer(@ModelAttribute UserModel customer) {
 
 
 
+
     
-////    edit ticket
-//    @GetMapping("/editTicket/{id}")
-//    public String editTicket(@PathVariable int id, Model model) {
-//        Ticket ticket = ticketService.getById(id);
-//        model.addAttribute("ticket", ticket);
-//        return "editcustomer";
-//    }
-//
-//    @PostMapping("/update-ticket")
-//    public String updateTicket(Ticket ticket) {
-//        ticketService.update(ticket);
-//        return "redirect:/admin-dashboard";
-//    }
-///
+
 
  
