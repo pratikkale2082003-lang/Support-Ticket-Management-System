@@ -55,6 +55,30 @@ public class HomeController {
         
         
     }
+    
+//     forgot password
+    @GetMapping("/forgot-password")
+    public String forgetpasswordpage() {
+        return "forgot-password";
+    }
+
+    @PostMapping("/forgot-password")
+    public String processforget(@RequestParam String username,
+                                @RequestParam String newPassword,
+                                HttpSession session) {
+
+        boolean updated = usersr.updatePassword(username, newPassword);
+
+        if (updated) {
+            session.setAttribute("error", "Password updated successfully. Please login.");
+            return "redirect:/login2";
+        } else {
+            session.setAttribute("error", "User not found!");
+            return "forgot-password";
+        }
+    }
+
+    
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
