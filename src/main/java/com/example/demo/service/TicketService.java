@@ -103,9 +103,5 @@ public class TicketService {
         ticket.setStatus(ticketStatus);
         ticketrepo.save(ticket);
     }
-
-
-    	 
-    	
-    
+   
 }
