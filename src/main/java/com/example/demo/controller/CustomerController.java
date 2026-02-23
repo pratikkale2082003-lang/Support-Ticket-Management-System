@@ -1,9 +1,15 @@
 package com.example.demo.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.example.demo.model.Ticket;
 import com.example.demo.model.UserModel;
 import com.example.demo.service.TicketService;
@@ -43,20 +49,30 @@ public class CustomerController {
     public String registerPage() {
         return "register3";
     }
-
+//------------------------------------------------------------------------------------
     //REGISTRATION SUBMIT 
     @PostMapping("/register3")
-    public String register(UserModel user, HttpSession session, Model model) {
+    public String register(@ModelAttribute UserModel user,
+                           @RequestParam("imageFile") MultipartFile file,
+                           HttpSession session) {
+
+        try {
+            if (!file.isEmpty()) {
+                user.setImage(file.getBytes());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         userrepo.register(user);
-        System.out.println("Successfully Registered");
 
-        // Save logged in user to session
-        session.setAttribute("user", user);
+        // 🔥 IMPORTANT: reload saved user from DB
+        UserModel savedUser = userrepo.getById(user.getId());
+        session.setAttribute("user", savedUser);
 
         return "redirect:/Customer-dashboard";
     }
-
+//---------------------------------------------------------------------------------------
     // TICKET CREATE PAGE
     @GetMapping("/ticket/create")
     public String createPage() {
@@ -147,15 +163,29 @@ public String updateTicket(@ModelAttribute Ticket ticket) {
 
     return "redirect:/admin-dashboard";
 }
+
+//--------- user image ----------------------------------------------
+
+@GetMapping("/user/image/{id}")
+public ResponseEntity<byte[]> showImage(@PathVariable int id) {
+
+    UserModel user = userrepo.getById(id);
+
+    if (user == null || user.getImage() == null) {
+        return ResponseEntity.notFound().build();
+    }
+
+    byte[] image = user.getImage();
+
+    return ResponseEntity
+            .ok()
+            .contentType(MediaType.IMAGE_JPEG)
+            .body(image);
+}
+
 }
 
 
 
 
 
-
-
-    
-
-
- 
