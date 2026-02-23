@@ -54,19 +54,45 @@ public class UserServices {
     
     
     
-//    update customer
+
+    // ✅ Corrected Update Method
     public void update(UserModel formUser) {
 
-        UserModel dbUser = getById(formUser.getId());
+        UserModel dbUser = userRepo.findById(formUser.getId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
+        // Update basic fields
         dbUser.setUsername(formUser.getUsername());
-        dbUser.setPassword(formUser.getPassword());
         dbUser.setRole(formUser.getRole());
         dbUser.setActive(formUser.isActive());
+
+        // Update password only if provided
+        if (formUser.getPassword() != null && !formUser.getPassword().trim().isEmpty()) {
+            dbUser.setPassword(formUser.getPassword());
+        }
 
         userRepo.save(dbUser);
     }
 
 
+    
+    
+//     forgot password
+    	 public boolean updatePassword(String username, String newPassword) {
 
+    		    return userRepo.findByUsername(username)
+    		            .map(user -> {
+    		                user.setPassword(newPassword);
+    		                userRepo.save(user);
+    		                return true;
+    		            })
+    		            .orElse(false);
+    		}
+    	 
+    	 
+//    	Delete 
+    	 public void deleteUserById(Integer id){
+    		    userRepo.deleteById(id);
+    		}
+    
 }
