@@ -32,7 +32,7 @@ public class AdminController {
             model.addAttribute("error","Unauthorized");
             return "logincheck";
         }
-
+// get all ticket
         List<Ticket> tickets = ticketService.getAllTicket();
         model.addAttribute("tickets", tickets);
         model.addAttribute("user", user);
@@ -107,6 +107,18 @@ public class AdminController {
    	 
 		return "admin-report";
     }
+    
+    
+    
+//multiple delete 
+    @PostMapping("/deleteSelectedCustomers")
+    public  String deleteselect( @RequestParam("customerIds") List<Integer> ids) {
+    	for(Integer id : ids){
+            usersr.deleteUserById(id);
+        }
+    	return "redirect:/admin-dashboard";
+    }
+    
     
     }
 
