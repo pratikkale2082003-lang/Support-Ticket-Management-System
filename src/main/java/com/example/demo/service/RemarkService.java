@@ -10,6 +10,9 @@ import com.example.demo.UserRepository.RemarkRepository;
 import com.example.demo.UserRepository.TicketRepository;
 import com.example.demo.model.Ticket;
 import com.example.demo.model.TicketRemarkModel;
+import com.example.demo.model.UserModel;
+
+import jakarta.servlet.http.HttpSession;
 
 @Service
 public class RemarkService {
@@ -20,6 +23,9 @@ public class RemarkService {
     @Autowired
     private TicketRepository ticketRepo;
 
+    @Autowired
+    private HttpSession session;
+
     public TicketRemarkModel addRemark(Integer ticketId, String remarkText) {
         Ticket ticket = ticketRepo.findById(ticketId).orElse(null);
         if (ticket == null) throw new RuntimeException("Ticket not found");
@@ -29,9 +35,14 @@ public class RemarkService {
         remark.setTicket(ticket);
         remark.setCreatedAt(LocalDateTime.now());
 
+        // logged-in user from session
+        UserModel currentUser = (UserModel) session.getAttribute("user");
+        remark.setCreatedBy(currentUser);
+
         TicketRemarkModel saved = remarkRepo.save(remark);
         ticket.getRemarks().add(saved);
         ticketRepo.save(ticket);
+
         return saved;
     }
 
