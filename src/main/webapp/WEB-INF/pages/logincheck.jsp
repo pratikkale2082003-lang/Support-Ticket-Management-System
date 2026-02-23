@@ -9,59 +9,96 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #eef2f7;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #4e73df, #1cc88a);
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+    }
 
-        .login-box {
-            width: 350px;
-            background: #ffffff;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0px 3px 15px rgba(0,0,0,0.15);
-        }
+    .login-box {
+        width: 370px;
+        background: #ffffff;
+        padding: 35px;
+        border-radius: 15px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        transition: 0.3s ease;
+    }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-weight: 600;
-            color: #333;
-        }
+    .login-box:hover {
+        transform: translateY(-5px);
+    }
 
-        input.form-control {
-            border-radius: 8px;
-            padding: 10px;
-        }
+    h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        font-weight: 600;
+        color: #333;
+    }
 
-        button.btn-primary {
-            width: 100%;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 16px;
-        }
+    label {
+        font-weight: 500;
+        font-size: 14px;
+    }
 
-        button.btn-primary:hover {
-            background: #0056b3;
-        }
+    input.form-control {
+        border-radius: 10px;
+        padding: 12px;
+        border: 1px solid #ddd;
+        transition: 0.3s;
+    }
 
-        .alert {
-            font-size: 14px;
-            border-radius: 8px;
-        }
+    input.form-control:focus {
+        border-color: #4e73df;
+        box-shadow: 0 0 5px rgba(78, 115, 223, 0.4);
+    }
 
-        .sample-text {
-            text-align: center;
-            font-size: 13px;
-            margin-top: 10px;
-            color: #666;
-        }
-    </style>
+    button.btn-primary {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        background: #4e73df;
+        border: none;
+        transition: 0.3s;
+    }
 
+    button.btn-primary:hover {
+        background: #2e59d9;
+        transform: scale(1.03);
+    }
+
+    .alert {
+        font-size: 14px;
+        border-radius: 10px;
+    }
+
+    a {
+        text-decoration: none;
+        font-size: 13px;
+        color: #4e73df;
+        font-weight: 500;
+    }
+
+    a:hover {
+        text-decoration: underline;
+        color: #2e59d9;
+    }
+
+    .text-end {
+        margin-top: 10px;
+    }
+
+    .register-link {
+        text-align: center;
+        margin-top: 15px;
+        font-size: 14px;
+    }
+</style>
 </head>
 <body>
 
@@ -86,12 +123,15 @@
         </div>
 
         <button class="btn btn-primary" type="submit">Login</button>
+        
+         <div  class="text-end mt-2">
+         <a href = "/forgot-password">Forgot PassWord ? </a>
+         </div>
     </form>
 <br>
    
         New Register account? <a href="register3">New Register</a>
     </div>
-</div>
 
 </body>
 </html>
