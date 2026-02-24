@@ -25,20 +25,38 @@ public class AdminController {
     private TicketService ticketService;
 
     @GetMapping("/admin-dashboard")
-    public String adminDashboard(HttpSession session, Model model){
+    public String adminDashboard(
+            @RequestParam(value = "keyword", required = false) String keyword,
+            HttpSession session,
+            Model model){
+
         UserModel user = (UserModel) session.getAttribute("user");
 
         if(user == null || user.getRole() != UserModel.Role.admin){
             model.addAttribute("error","Unauthorized");
             return "logincheck";
         }
-// get all ticket
-        List<Ticket> tickets = ticketService.getAllTicket();
+
+        List<Ticket> tickets;
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            tickets = ticketService.searchByCustomerUsername(keyword);
+        } else {
+            tickets = ticketService.getAllTicket();
+        }
+
         model.addAttribute("tickets", tickets);
         model.addAttribute("user", user);
 
         return "admin-dashboard";
     }
+// get all ticket
+//        List<Ticket> tickets = ticketService.getAllTicket();
+//        model.addAttribute("tickets", tickets);
+//        model.addAttribute("user", user);
+//
+//        return "admin-dashboard";
+//    }
 
     // assign ticket to staff
     @GetMapping("/assignTicket")
