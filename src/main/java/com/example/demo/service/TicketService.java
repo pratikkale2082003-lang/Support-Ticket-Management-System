@@ -103,5 +103,7 @@ public class TicketService {
         ticket.setStatus(ticketStatus);
         ticketrepo.save(ticket);
     }
-   
+   public List<Ticket> searchByCustomerUsername(String username){
+        return ticketrepo.searchByCustomerUsername(username);
+    }
 }
