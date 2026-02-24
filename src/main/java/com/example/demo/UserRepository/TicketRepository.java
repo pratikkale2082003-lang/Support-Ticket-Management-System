@@ -24,4 +24,11 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
             @Param("start") LocalDateTime start,
             @Param("end") LocalDateTime end
     );
+
+    @Query("""
+    	    SELECT t FROM Ticket t
+    	    WHERE LOWER(t.customer.username) LIKE LOWER(CONCAT('%', :username, '%'))
+    	""")
+    	List<Ticket> searchByCustomerUsername(@Param("username") String username);
+//	 List<Ticket> findByCustomerUsernameContainingIgnoreCase(String username);
 }
